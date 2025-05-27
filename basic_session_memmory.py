@@ -5,6 +5,7 @@ from google.genai import types
 import basic_agent
 import uuid
 from basic_agent.agent import root_agent
+from utils import my_function
 import os
 base_dir = os.path.dirname(os.path.abspath(__file__))
 dotenv_path = os.path.join(base_dir, '.env')
@@ -26,6 +27,7 @@ initial_state = {
     my favorite  Tv show  is Game  Of Thrones.
     My best team is Real Madrid , Raja Casablanca. 
     MY best best player ever is  Ronaldo.
+    i am 20 years old
     """
 }
 APP_NAME = "Younes Bot"
@@ -45,7 +47,7 @@ runner = Runner(
     session_service=first_state
 )
 new_message = types.Content(
-    role="user" , parts=[types.Part(text="what younes best player ever?")]
+    role="user" , parts=[types.Part(text="what year i was born?")]
 )
 for event in runner.run(
     user_id=USER_ID,
