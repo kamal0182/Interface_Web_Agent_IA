@@ -1,5 +1,6 @@
 from google.adk.agents import Agent
 from google.adk.tools.tool_context import ToolContext
+from capital_agent.sub_agent.calculator_of_teams.agent import calculator_of_teams
 
 def addaMatch(team_against: str, result: str, tool_context: ToolContext) -> dict:
     """
@@ -24,7 +25,7 @@ def addaMatch(team_against: str, result: str, tool_context: ToolContext) -> dict
     match_historys.append(match_history)
     print(match_historys)
     tool_context.state["match_history"] = match_historys
-    
+
     return {
             "action": "addaMatch",
             "message": f"OK. I've added the match between {user_team} and {team_against} with the result {result} to your match history."
@@ -74,11 +75,11 @@ root_agent = Agent(
     GUIDLINES :
     2. if the user about his name you can tell him his name
     """,
+    sub_agents=[calculator_of_teams],
     tools=[
         addaMatch,
         tellTheUserName,
         bestTeam,
         deleteTeam,
-        
     ],
 )
