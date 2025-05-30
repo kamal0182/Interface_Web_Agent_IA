@@ -1,14 +1,16 @@
 from google.adk.agents import Agent
 from google.adk.tools.tool_context import ToolContext
+from google.adk.tools.agent_tool import AgentTool
+from capital_agent.sub_agent.history_Against_a_Team_In_Specific_Year.agent import history_Against_a_Team_In_Specific_Year
 from capital_agent.sub_agent.calculator_of_teams.agent import calculator_of_teams
-
+ 
 def addaMatch(team_against: str, result: str, tool_context: ToolContext) -> dict:
     """
     Args:
         match_history: match history to add
         tool_context: context for accessing and updating session state
     """
-    user_team = tool_context.state.get("football_team").lower()
+    user_team = tool_context.state.get("football_team").lower() 
     opponent = team_against.lower()
 
     if opponent == user_team:
@@ -51,6 +53,18 @@ def bestTeam(tool_context:ToolContext)->dict :
             "action": "bestTeam",
             "message": f"Your favorite football team is {mybestTeam}."
             }
+def initialize_user(tool_context: ToolContext) -> dict:
+    initial_state = {
+    "user_name" : "Younes Kamal", 
+    "football_team" : "Real madrid"  , 
+    "match_history" : []
+    }
+    for key, value in initial_state.items():
+        tool_context.state.setdefault(key, value)
+    return {
+        "action": "initialize_user",
+        "message": "User initialized with default values."
+    }
 
 root_agent = Agent(
     name="capital_agent",
@@ -77,9 +91,12 @@ root_agent = Agent(
     """,
     sub_agents=[calculator_of_teams],
     tools=[
+        initialize_user,
         addaMatch,
         tellTheUserName,
         bestTeam,
         deleteTeam,
+        AgentTool(history_Against_a_Team_In_Specific_Year),
     ],
+    
 )

@@ -1,7 +1,4 @@
 from google.adk.agents import Agent
-
-
-
 root_agent = Agent(
     name="basic_agent",
     model="gemini-2.0-flash",
@@ -12,7 +9,7 @@ root_agent = Agent(
     Name : 
     {user_name}
     preferences :
-    {user_preference}
+    {user_preference}   
     """,
 #    tools=[google_search],
 
